@@ -4,6 +4,8 @@
 from argparse import ArgumentParser
 import time
 from typing import List
+import random
+import csv
 
 VERSION = "1.0.0"
 
@@ -36,7 +38,14 @@ def prepare_matrix(dim: int, symbols: tuple) -> List[List[str]]:
                     The first element is assumed to be the one 'positive' in the algorithm.
     :return: List of rows.
     """
-    raise NotImplementedError
+    matrix = list()
+    for rows in range(dim):
+        matrix.append(list())
+        for cols in range(dim):
+            matrix[rows].append(random.choice(symbols))  # Filling the matrix randomly
+
+    return matrix
+
 
 # Main script
 
@@ -46,5 +55,10 @@ namespace = parser.parse_args()  # Get command line args
 dimension = namespace.dimension
 filename = namespace.filename
 symbol_pair = tuple(namespace.symbol_pair)
+
+with open(filename, 'w', newline='') as file_handle:
+    writer = csv.writer(file_handle, delimiter=' ')
+    for row in prepare_matrix(dimension, symbol_pair):
+        writer.writerow(row)
 
 
