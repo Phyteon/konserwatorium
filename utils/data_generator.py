@@ -17,7 +17,7 @@ def prepare_parser() -> ArgumentParser:
     :return: ArgumentParser object.
     """
     default_filename = ''.join(time.ctime(time.time()).split(" ")) + ".csv"
-    parser = ArgumentParser(prog='Quadratic matrix data generator')
+    parser = ArgumentParser(prog='py data_generator.py')
     parser.add_argument("dimension", type=int, help="Dimensions of quadratic matrix - just a number")
     parser.add_argument("-f", "--filename", type=str, default=default_filename, dest='filename',
                         help="Name of the file where output will be saved")
