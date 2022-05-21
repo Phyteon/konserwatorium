@@ -9,8 +9,10 @@ Our problem is as follows:
  - matrix of dimensions MxM is the input of the program
  - matrix contains only two types of values
  - starting point is a cell from one of the edges of the matrix (1 column, M column, 1 row or M row)
- - from that point, find the route to the opposite edge, where travel is only allowed through cells of one chosen value type
- - movements are allowed in all directions (including across), as well as moving to previously visited cells
+ - from that point, find the route meeting certain conditions, where travel is only allowed through cells of one chosen value type
+ - movements are allowed only to neighbouring cells (but not diagonally), including moving to previously visited cells
+ - the conditions of the route are: number of moves doesn't matter, only the number of visited cells of given type matter, 
+   route must lead to the same edge as the starting edge
 
 ## 2. Project assumptions
 
