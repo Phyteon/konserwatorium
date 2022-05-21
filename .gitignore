@@ -1,0 +1,4 @@
+# Exclude IDE directories
+.idea/**
+# Exclude artifact directories
+cmake-build-debug/**
