@@ -9,11 +9,14 @@
 #include <string>
 #include <map>
 #include <iostream>
+#include <list>
 
 namespace reader {
     class Node {
     private:
         std::string value;
+        std::pair<size_t, size_t> coordinates;
+        std::list<Node*> neighbours;
         uint64_t visit_count{};
     public:
         Node() = default;
@@ -47,7 +50,6 @@ namespace reader {
          */
         auto &operator[](std::size_t row){return this->m[row];}
 
-        friend std::ostream &operator<<(std::ostream &os, const Matrix &obj);
     };
 
     class DataReader {
@@ -57,11 +59,17 @@ namespace reader {
          */
         DataReader() = default;
 
+        static std::vector<std::string> get_row(const std::string& file_line);
+        static std::vector<Node*> check_neighbours(size_t row, size_t col, size_t row_count, size_t col_count);
+
     public:
         /*
-         * Static method for extracting data from a given file.
+         * Static method for extracting data from a given file. Validity of file handle should be checked outside
+         * the function.
          */
         static std::vector<std::vector<std::string>> read_csv_file(std::ifstream file_handle);
+        static std::list<Node> convert_to_linked_list(const std::vector<std::vector<std::string>> &processed_data,
+                                                      const std::string &chosen_symbol);
     };
 }
 
