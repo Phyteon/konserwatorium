@@ -23,18 +23,26 @@ namespace reader {
         explicit Node(std::string value){
             this->value = value;
         }
+        explicit Node(size_t row, size_t col, std::string value) {
+            this->coordinates = std::pair<size_t, size_t>{row, col};
+            this->value = value;
+        }
+
         /*
          * Getters
          */
         std::string get_value(){return this->value;}
         uint64_t get_visit_count(){return this->visit_count;}
+        std::pair<size_t, size_t> get_coordinates(){return this->coordinates;}
         /*
          * Setters
          */
         void increment_visit_count(){this->visit_count++;}
+        void add_neighbour(Node* neighbour){this->neighbours.push_back(neighbour);}
 
     };
 
+#ifdef PROTOTYPING /* Redacted currently unused code */
     class Matrix {
     private:
         std::vector<std::vector<reader::Node>> m;
@@ -51,7 +59,7 @@ namespace reader {
         auto &operator[](std::size_t row){return this->m[row];}
 
     };
-
+#endif
     class DataReader {
     private:
         /*
@@ -60,7 +68,6 @@ namespace reader {
         DataReader() = default;
 
         static std::vector<std::string> get_row(const std::string& file_line);
-        static std::vector<Node*> check_neighbours(size_t row, size_t col, size_t row_count, size_t col_count);
 
     public:
         /*
