@@ -38,7 +38,11 @@ namespace reader {
          * Setters
          */
         void increment_visit_count(){this->visit_count++;}
-        void add_neighbour(Node* neighbour){this->neighbours.push_back(neighbour);}
+        void add_neighbour(Node* neighbour){
+            this->neighbours.push_back(neighbour);
+            this->neighbours.sort();
+            this->neighbours.unique();
+        }
 
     };
 
@@ -68,16 +72,17 @@ namespace reader {
         DataReader() = default;
 
         static std::vector<std::string> get_row(const std::string& file_line);
+        static std::ifstream get_file_handle(const std::string& path);
 
     public:
         /*
          * Static method for extracting data from a given file. Validity of file handle should be checked outside
          * the function.
          */
-        static std::vector<std::vector<std::string>> read_csv_file(std::ifstream file_handle);
+        static std::vector<std::vector<std::string>> read_csv_file(const std::string& path);
         static std::list<Node> convert_to_linked_list(const std::vector<std::vector<std::string>> &processed_data,
                                                       const std::string &chosen_symbol);
-        static
+        static std::string parse_command_line_args(int argc, char** argv);
     };
 }
 
