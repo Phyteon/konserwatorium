@@ -5,6 +5,7 @@
 #include <fstream>
 #include "../inc/data_reader.h"
 
+#ifdef PROTOTYPING
 reader::Matrix::Matrix(std::vector<std::vector<std::string>> file_contents) {
     for (auto row{0U}; row < file_contents.size(); row++) {
         this->m.emplace_back(std::vector<reader::Node>());
@@ -13,6 +14,7 @@ reader::Matrix::Matrix(std::vector<std::vector<std::string>> file_contents) {
         }
     }
 }
+#endif
 
 std::vector<std::string> reader::DataReader::get_row(const std::string& file_line) {
     std::vector<std::string> row{};

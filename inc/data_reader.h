@@ -77,6 +77,7 @@ namespace reader {
         static std::vector<std::vector<std::string>> read_csv_file(std::ifstream file_handle);
         static std::list<Node> convert_to_linked_list(const std::vector<std::vector<std::string>> &processed_data,
                                                       const std::string &chosen_symbol);
+        static
     };
 }
 
