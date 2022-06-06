@@ -48,42 +48,38 @@ std::vector<std::vector<std::string>> reader::DataReader::read_csv_file(const st
     return buff;
 }
 
-std::list<reader::Node> reader::DataReader::convert_to_linked_list(
-        const std::vector<std::vector<std::string>> &processed_data,
-        const std::string &chosen_symbol) {
-    std::list<reader::Node> linked_list;
-    /* First, allocate all node objects into the list */
+std::map<std::pair<int, int>, reader::Node> reader::DataReader::convert_to_map(
+        const std::vector<std::vector<std::string>> &processed_data, const std::string &chosen_symbol) {
+    std::map<std::pair<int, int>, reader::Node> lookup_table;
+    /* First, allocate all node objects into the map */
     for (size_t row_idx{}; row_idx < processed_data.size(); row_idx++) {
         for (size_t col_idx{}; col_idx < processed_data[0].size(); col_idx++) {
-            if(processed_data[row_idx][col_idx] == chosen_symbol)
-                linked_list.emplace_back(Node(row_idx, col_idx, chosen_symbol));
-        }
-    }
-    /* TODO: optimise the algorithm for large data! */
-    for (auto &node: linked_list) {
-        /* For each element, go through the list again to find neighbours */
-        for (auto &node_inner_loop: linked_list) {
-            std::pair<size_t, size_t> node_coordinates, node_inner_loop_coordinates;
-            node_coordinates = node.get_coordinates();
-            node_inner_loop_coordinates = node_inner_loop.get_coordinates();
-            /* If the node is not the same as the one from the top loop */
-            if (node_coordinates != node_inner_loop_coordinates) {
-                /* Check vertically and horizontally */
-                /* Casting size_t to int64_t to avoid ambiguity */
-                int64_t node_row = std::get<0>(node_coordinates);
-                int64_t node_col = std::get<1>(node_coordinates);
-                int64_t node_inner_loop_row = std::get<0>(node_inner_loop_coordinates);
-                int64_t node_inner_loop_col = std::get<1>(node_inner_loop_coordinates);
-                if (((std::abs(node_row - node_inner_loop_row) == 1) && (node_col == node_inner_loop_col)) ||
-                ((std::abs(node_col - node_inner_loop_col) == 1) && (node_row == node_inner_loop_row))) {
-                    /* The method "add_neighbour" ensures that entries are unique */
-                    node.add_neighbour(&node_inner_loop);
-                    node_inner_loop.add_neighbour(&node);
-                }
+            if(processed_data[row_idx][col_idx] == chosen_symbol) {
+                lookup_table.emplace(
+                        std::make_pair(
+                                std::make_pair(row_idx, col_idx),
+                                Node(row_idx, col_idx, chosen_symbol)));
             }
         }
     }
-    return linked_list;
+    for (auto& [coor, obj]: lookup_table) {
+        int row, col;
+        row = std::get<0>(coor);
+        col = std::get<1>(coor);
+        std::pair<int, int> candidates[4] = {
+                std::make_pair(row - 1, col),
+                std::make_pair(row + 1, col),
+                std::make_pair(row, col - 1),
+                std::make_pair(row, col + 1)
+        };
+        for (const auto& candidate: candidates) {
+            auto search_result = lookup_table.find(candidate);
+            if (search_result != lookup_table.end()) {
+                obj.add_neighbour(&search_result->second);
+            }
+        }
+    }
+    return lookup_table;
 }
 
 std::string reader::DataReader::parse_command_line_args(int argc, char** argv) {

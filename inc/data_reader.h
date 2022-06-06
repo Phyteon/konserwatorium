@@ -15,7 +15,7 @@ namespace reader {
     class Node {
     private:
         std::string value;
-        std::pair<size_t, size_t> coordinates;
+        std::pair<int, int> coordinates;
         std::list<Node*> neighbours;
         uint64_t visit_count{};
     public:
@@ -24,7 +24,7 @@ namespace reader {
             this->value = value;
         }
         explicit Node(size_t row, size_t col, std::string value) {
-            this->coordinates = std::pair<size_t, size_t>{row, col};
+            this->coordinates = std::make_pair(row, col);
             this->value = value;
         }
 
@@ -80,7 +80,7 @@ namespace reader {
          * the function.
          */
         static std::vector<std::vector<std::string>> read_csv_file(const std::string& path);
-        static std::list<Node> convert_to_linked_list(const std::vector<std::vector<std::string>> &processed_data,
+        static std::map<std::pair<int, int>, Node> convert_to_map(const std::vector<std::vector<std::string>> &processed_data,
                                                       const std::string &chosen_symbol);
         static std::string parse_command_line_args(int argc, char** argv);
     };
