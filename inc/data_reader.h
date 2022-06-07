@@ -38,11 +38,7 @@ namespace reader {
          * Setters
          */
         void increment_visit_count(){this->visit_count++;}
-        void add_neighbour(Node* neighbour){
-            this->neighbours.push_back(neighbour);
-            this->neighbours.sort();
-            this->neighbours.unique();
-        }
+        void add_neighbour(Node* neighbour){this->neighbours.push_back(neighbour);}
 
     };
 
