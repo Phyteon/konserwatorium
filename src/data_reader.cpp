@@ -99,3 +99,19 @@ std::ifstream reader::DataReader::get_file_handle(const std::string& path) {
     if (data_file.is_open()) return data_file;
     else throw std::invalid_argument("Wrong path to file or file is damaged!");
 }
+
+void reader::DataReader::write_output_to_file(std::vector<std::vector<std::string>>& solved_matrix, std::string& path) {
+    std::ofstream out_file (path);
+    std::string out{};
+    if (out_file.is_open()) {
+        for (size_t row{}; row < solved_matrix.size(); row++) {
+            for (size_t col{}; col < solved_matrix[0].size(); col++) {
+                out += solved_matrix[row][col] + " ";
+            }
+            out += "\n";
+        }
+        out_file << out;
+        out_file.close();
+    }
+    else throw std::invalid_argument("Unable to save to a specified path!");
+}
