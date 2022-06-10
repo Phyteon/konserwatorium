@@ -34,15 +34,12 @@ namespace reader {
         std::string get_value(){return this->value;}
         uint64_t get_visit_count(){return this->visit_count;}
         std::pair<size_t, size_t> get_coordinates(){return this->coordinates;}
+        std::list<Node*> get_neighbours(){return this->neighbours;}
         /*
          * Setters
          */
         void increment_visit_count(){this->visit_count++;}
-        void add_neighbour(Node* neighbour){
-            this->neighbours.push_back(neighbour);
-            this->neighbours.sort();
-            this->neighbours.unique();
-        }
+        void add_neighbour(Node* neighbour){this->neighbours.push_back(neighbour);}
 
     };
 
@@ -83,6 +80,7 @@ namespace reader {
         static std::map<std::pair<int, int>, Node> convert_to_map(const std::vector<std::vector<std::string>> &processed_data,
                                                       const std::string &chosen_symbol);
         static std::string parse_command_line_args(int argc, char** argv);
+        static void write_output_to_file(std::vector<std::vector<std::string>>& solved_matrix, std::string& path);
     };
 }
 
