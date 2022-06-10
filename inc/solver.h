@@ -21,7 +21,7 @@ namespace solver {
          * Create a set of visited coordinates, which will be later used to create visual representation
          * of taken path.
          */
-        static std::set<std::pair<int, int>> find_optimal_path(reader::Node* node);
+        static std::list<std::pair<int, int>> find_optimal_path(reader::Node* node);
         /* Check if matrix can be entered and if entry points do not overlap. */
         static void perform_checks_and_algorithm(std::map<std::pair<int, int>, reader::Node>& graph,
                                                  std::vector<std::vector<std::string>>& matrix,

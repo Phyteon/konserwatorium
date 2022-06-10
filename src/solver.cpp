@@ -5,20 +5,16 @@
 #include <algorithm>
 #include "../inc/solver.h"
 
-std::set<std::pair<int, int>> solver::Solver::find_optimal_path(reader::Node* node) {
-    std::set<std::pair<int, int>> visited_coordinates;
-    std::set<std::pair<int, int>> embedded_return_value;
-    std::set<std::pair<int, int>> return_value;
-    visited_coordinates.emplace(node->get_coordinates());
+std::list<std::pair<int, int>> solver::Solver::find_optimal_path(reader::Node* node) {
+
+    std::list<std::pair<int, int>> return_value{};
     node->increment_visit_count();
     for (auto neighbour: node->get_neighbours()) {
         if (neighbour->get_visit_count() == 0) {
-            embedded_return_value = find_optimal_path(neighbour);
-            std::set_union(visited_coordinates.begin(), visited_coordinates.end(),
-                           embedded_return_value.begin(), embedded_return_value.end(),
-                           std::inserter(return_value, return_value.begin()));
+            return_value.merge(find_optimal_path(neighbour));
         }
     }
+    return_value.emplace_back(node->get_coordinates());
     return return_value;
 }
 
@@ -61,23 +57,23 @@ void solver::Solver::perform_checks_and_algorithm(std::map<std::pair<int, int>, 
         return;
     }
     /* Find non-overlapping paths */
-    std::vector<std::set<std::pair<int, int>>> visited_coordinates;
+    std::vector<std::list<std::pair<int, int>>> visited_coordinates;
     for (auto& coordinates: entry_points) {
         if (graph[coordinates].get_visit_count() == 0) {
             visited_coordinates.push_back(solver::Solver::find_optimal_path(&graph[coordinates]));
         }
     }
     unsigned long long element_count{};
-    std::set<std::pair<int, int>> chosen_set;
+    std::list<std::pair<int, int>> chosen_list;
     for (size_t idx{}; idx < visited_coordinates.size(); idx++) {
         unsigned long long temp = visited_coordinates[idx].size();
         if (temp > element_count) {
             element_count = temp;
-            chosen_set = visited_coordinates[idx];
+            chosen_list = visited_coordinates[idx];
         }
     }
     /* Visualising taken path */
-    for (auto& coordinates: chosen_set) {
+    for (auto& coordinates: chosen_list) {
         matrix[std::get<0>(coordinates)][std::get<1>(coordinates)] = "X";
     }
 }
