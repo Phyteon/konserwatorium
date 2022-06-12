@@ -87,7 +87,11 @@ on how to use it. The script only requires standard python libraries to run, and
 To run the script, the most reliable way (always works) is to specify the script as an argument to the interpreter in the
 command line. Please check what is the correct interpreter invocation command on Your system - it will be probably *py*
 or *python3*. The easiest way to make sure is to write expected interpreter invocation command with *--version* argument.
-If it is the correct command, it will print python version currently invoked.
+If it is the correct command, it will print python version currently invoked. Example command might be as follows:
+
+```commandline
+./data_generator.py 1000 -f test1.csv
+```
 
 After generating or manually specifying the input file, the built executable *konserwatorium.exe* should be called with
 the following arguments:
@@ -96,7 +100,12 @@ the following arguments:
  - *path_to_output_file* - valid path to the output data file path (if file doesn't exist, it will be created),
  - *--verbose_off* - OPTIONAL argument. It disables logging possible paths to console.
 
-In the output file, the chosen path will be marked with "X". Example of the usage can be seen below:
+If Your terminal window is open in *cmake-build-release-mingw* directory, an example of the usage may be as follows:
+
+```commandline
+./konserwatorium.exe ../utils/test1.csv ../utils/cmd_out.csv
+```
+In the output file, the chosen path will be marked with "X". A normal process output can be seen below:
 
 ![Example of program usage](docs/example_usage.png "Example of usage")
 
