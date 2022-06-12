@@ -25,7 +25,8 @@ namespace solver {
         /* Check if matrix can be entered and if entry points do not overlap. */
         static void perform_checks_and_algorithm(std::map<std::pair<int, int>, reader::Node>& graph,
                                                  std::vector<std::vector<std::string>>& matrix,
-                                                 MatrixEdgeEnum edge);
+                                                 MatrixEdgeEnum edge,
+                                                 bool verbosity);
     };
 }
 

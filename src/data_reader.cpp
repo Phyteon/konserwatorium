@@ -3,7 +3,7 @@
  */
 /* TODO: rewrite cmake so that no relative path is used - only header name */
 #include <fstream>
-#include "../inc/data_reader.h"
+#include "data_reader.h"
 
 #ifdef PROTOTYPING
 reader::Matrix::Matrix(std::vector<std::vector<std::string>> file_contents) {
@@ -82,15 +82,37 @@ std::map<std::pair<int, int>, reader::Node> reader::DataReader::convert_to_map(
     return lookup_table;
 }
 
-std::string reader::DataReader::parse_command_line_args(int argc, char** argv) {
+std::map<std::string, std::string> reader::DataReader::parse_command_line_args(int argc, char** argv) {
     /*
-     * Only one argument is expected, and that is a path to data file.
-     * If none is provided, the program will throw an error
+     * Very simple & basic command line args handling.
      */
-    if (argc != 2) {
+    std::vector<std::string> arguments;
+    std::map<std::string, std::string> return_value{};
+    if (1 == argc) {
+        shared::Logger::print_help();
         throw std::invalid_argument("Wrong number of command line args!");
     }
-    return std::string {argv[1]};
+    /* Converting arguments to string objects for safety reasons */
+    for (int arg_iter{}; arg_iter < argc; arg_iter++) {
+        arguments.emplace_back(std::string(argv[arg_iter]));
+    }
+    /* If --help is present, print help and exit */
+    if ("--help" == arguments[1]) {
+        shared::Logger::print_help();
+        return return_value;
+    }
+    /* If there is only one argument, and it is not --help, throw exception */
+    if (2 == argc) {
+        shared::Logger::print_help();
+        throw std::invalid_argument("Wrong number of command line args!");
+    }
+    /* If there are three or more arguments we assume that the necessary paths are present */
+    if (3 <= argc) {
+        return_value["input_data_path"] = arguments[1];
+        return_value["output_data_path"] = arguments[2];
+        return_value["verbosity"] = arguments[arguments.size() - 1];
+    }
+    return return_value;
 }
 
 std::ifstream reader::DataReader::get_file_handle(const std::string& path) {

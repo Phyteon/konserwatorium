@@ -23,9 +23,32 @@ Our problem is as follows:
 
 ## 3. Responsibilities division
 
-TO BE DISCUSSED!
-
  - Filip Pawelec - reading from files, cmake, dependencies
  - Krzysztof Skomiał - algorithm implementation
  - Krzysztof Kumka - algorithm implementation
  - Zachariasz Mońka - algorithm implementation
+
+## How to build and run the project
+
+The project was build & tested on standard MinGW toolchain for Windows, utilising Cmake as basis
+for generating necessary environment and Ninja as build system. The setup is as follows:
+
+1. Please make sure that You have all the necessary tools with correct versions - they don't
+have to be identical, but they have to be compatible:
+
+- CMake version 3.21.0-rc3
+- Ninja, release 1.11.0
+- MinGW g++ version 9.2.0
+- MinGW gcc version 9.2.0
+
+2. If the project is being set up for the first time, please fire up the terminal in the project directory and
+type in the following command:
+
+```commandline
+cmake -S . -B cmake-build-release-mingw -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=<path_to_build_program> -DCMAKE_C_COMPILER=<path_to_c_compiler> -DCMAKE_CXX_COMPILER=<path_to_cxx_compiler> -G Ninja .
+```
+
+3. If the above command has completed, the next command can be typed:
+```commandline
+cmake --build cmake-build-release-mingw --target konserwatorium
+```

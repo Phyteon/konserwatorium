@@ -13,6 +13,14 @@ namespace shared {
     public:
         NotImplementedError() : std::logic_error("Method not yet implemented!") {};
     };
+
+    class Logger {
+    private:
+        Logger() = default;
+    public:
+        static void print_welcome();
+        static void print_help();
+    };
 }
 
 #endif //KONSERWATORIUM_SHARED_H

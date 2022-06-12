@@ -3,7 +3,7 @@
  */
 /* TODO: rewrite cmake so that no relative path is used - only header name */
 #include <algorithm>
-#include "../inc/solver.h"
+#include "solver.h"
 
 std::list<std::pair<int, int>> solver::Solver::find_optimal_path(reader::Node* node) {
 
@@ -20,7 +20,8 @@ std::list<std::pair<int, int>> solver::Solver::find_optimal_path(reader::Node* n
 
 void solver::Solver::perform_checks_and_algorithm(std::map<std::pair<int, int>, reader::Node>& graph,
                                                   std::vector<std::vector<std::string>>& matrix,
-                                                  solver::MatrixEdgeEnum edge) {
+                                                  solver::MatrixEdgeEnum edge,
+                                                  bool verbosity) {
     std::list<std::pair<int, int>> entry_points;
     switch (edge) {
         case top_row:
@@ -54,23 +55,33 @@ void solver::Solver::perform_checks_and_algorithm(std::map<std::pair<int, int>, 
     }
     if (entry_points.empty()) {
         throw std::invalid_argument("No entry point in provided matrix!");
-        return;
     }
     /* Find non-overlapping paths */
     std::vector<std::list<std::pair<int, int>>> visited_coordinates;
+    std::vector<std::pair<int, int>> non_overlapping_entry_points;
     for (auto& coordinates: entry_points) {
         if (graph[coordinates].get_visit_count() == 0) {
             visited_coordinates.push_back(solver::Solver::find_optimal_path(&graph[coordinates]));
+            non_overlapping_entry_points.push_back(coordinates);
         }
     }
     unsigned long long element_count{};
     std::list<std::pair<int, int>> chosen_list;
+    /* Log info to standard output, but save only the longest path */
+    if (verbosity)
+        std::cout << "All possible paths (non-overlapping) and their field count:" << std::endl;
+
     for (size_t idx{}; idx < visited_coordinates.size(); idx++) {
         unsigned long long temp = visited_coordinates[idx].size();
         if (temp > element_count) {
             element_count = temp;
             chosen_list = visited_coordinates[idx];
         }
+        if (verbosity)
+            std::printf("Entry point: row %d, column %d; Length = %d\n",
+                    std::get<0>(non_overlapping_entry_points[idx]),
+                            std::get<1>(non_overlapping_entry_points[idx]),
+                                    temp);
     }
     /* Visualising taken path */
     for (auto& coordinates: chosen_list) {

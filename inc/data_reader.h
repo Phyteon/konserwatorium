@@ -10,6 +10,7 @@
 #include <map>
 #include <iostream>
 #include <list>
+#include "shared.h"
 
 namespace reader {
     class Node {
@@ -79,7 +80,7 @@ namespace reader {
         static std::vector<std::vector<std::string>> read_csv_file(const std::string& path);
         static std::map<std::pair<int, int>, Node> convert_to_map(const std::vector<std::vector<std::string>> &processed_data,
                                                       const std::string &chosen_symbol);
-        static std::string parse_command_line_args(int argc, char** argv);
+        static std::map<std::string, std::string> parse_command_line_args(int argc, char** argv);
         static void write_output_to_file(std::vector<std::vector<std::string>>& solved_matrix, std::string& path);
     };
 }
