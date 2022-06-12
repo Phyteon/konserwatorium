@@ -71,21 +71,32 @@ void solver::Solver::perform_checks_and_algorithm(std::map<std::pair<int, int>, 
     if (verbosity)
         std::cout << "All possible paths (non-overlapping) and their field count:" << std::endl;
 
+    std::pair<int, int> start_coordinates{};
     for (size_t idx{}; idx < visited_coordinates.size(); idx++) {
         unsigned long long temp = visited_coordinates[idx].size();
         if (temp > element_count) {
             element_count = temp;
             chosen_list = visited_coordinates[idx];
+            start_coordinates = non_overlapping_entry_points[idx];
         }
         if (verbosity)
             std::printf("Entry point: row %d, column %d; Length = %d\n",
-                    std::get<0>(non_overlapping_entry_points[idx]),
-                            std::get<1>(non_overlapping_entry_points[idx]),
-                                    temp);
+                        std::get<0>(non_overlapping_entry_points[idx]),
+                        std::get<1>(non_overlapping_entry_points[idx]),
+                        temp);
     }
+
+    /* Printing result */
+    std::printf("If You start from: row %d, column %d, You can get %d figures.\n",
+                std::get<0>(start_coordinates),
+                std::get<1>(start_coordinates),
+                chosen_list.size());
+
     /* Visualising taken path */
     for (auto& coordinates: chosen_list) {
         matrix[std::get<0>(coordinates)][std::get<1>(coordinates)] = "X";
     }
+
+
 }
 
