@@ -28,7 +28,7 @@ Our problem is as follows:
  - Krzysztof Kumka - algorithm implementation
  - Zachariasz Mońka - algorithm implementation
 
-## How to build and run the project
+## How to build the project
 
 The project was build & tested on standard MinGW toolchain for Windows, utilising Cmake as basis
 for generating necessary environment and Ninja as build system. The setup is as follows:
@@ -41,14 +41,29 @@ have to be identical, but they have to be compatible:
 - MinGW g++ version 9.2.0
 - MinGW gcc version 9.2.0
 
-2. If the project is being set up for the first time, please fire up the terminal in the project directory and
+2. If the project is being set up for the first time, please fire up the terminal ***in the project directory*** and
 type in the following command:
 
 ```commandline
 cmake -S . -B cmake-build-release-mingw -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=<path_to_build_program> -DCMAKE_C_COMPILER=<path_to_c_compiler> -DCMAKE_CXX_COMPILER=<path_to_cxx_compiler> -G Ninja .
 ```
 
+IMPORTANT TO NOTE! If CMake executable is not in Your PATH system variable, You'll have to provide full path to the executable Yourself.
+Same goes for compilers and build system - if paths to them are in the PATH variable, You don't have to provide full paths UNLESS
+You have multiple versions installed.
+
+If anything goes wrong during this command, please check for correct syntax and if it was executed in the correct
+directory. The output should look like this:
+
+![Expected console output](docs/build_environment_setup_out.png "Expected console output")
+
 3. If the above command has completed, the next command can be typed:
 ```commandline
 cmake --build cmake-build-release-mingw --target konserwatorium
 ```
+
+After the above command finishes, it should produce an executable file in *cmake-build-release-mingw* directory.
+
+## How to run the project
+
+WIP!
