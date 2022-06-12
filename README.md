@@ -103,3 +103,8 @@ In the output file, the chosen path will be marked with "X". Example of the usag
 For the example input file provided above, the output looks like this:
 
 ![Example of program output](docs/exemplary_output_file.png "Example of program output")
+
+## Performance
+
+The program was tested with matrix of size 1000x1000 and no issues were found. Bigger matrices were not tested for
+practicality reasons.
