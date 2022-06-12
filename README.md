@@ -116,4 +116,5 @@ For the example input file provided above, the output looks like this:
 ## Performance
 
 The program was tested with matrix of size 1000x1000 and no issues were found. Bigger matrices were not tested for
-practicality reasons.
+practicality reasons. IMPORTANT! The maximum size of input matrix may be determined by Your operating system and
+Your hardware. 
