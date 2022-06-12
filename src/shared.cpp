@@ -19,3 +19,7 @@ void shared::Logger::print_help() {
     std::cout << "Optional argument --verbose_off turns off the logging of all possible (non-overlapping) paths." << std::endl;
     std::cout << "Argument parsing is done very simply, so argument positions must be preserved!" << std::endl;
 }
+
+void shared::Logger::print_out(std::string& path) {
+    std::cout << " Output has been written to " + path + " file." << std::endl;
+}

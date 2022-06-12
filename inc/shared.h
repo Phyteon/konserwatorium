@@ -20,6 +20,7 @@ namespace shared {
     public:
         static void print_welcome();
         static void print_help();
+        static void print_out(std::string& path);
     };
 }
 

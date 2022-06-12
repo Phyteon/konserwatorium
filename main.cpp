@@ -8,8 +8,9 @@ int main(int argc, char** argv) {
     shared::Logger::print_welcome();
     std::map<std::pair<int, int>, reader::Node> graph_as_map;
     std::vector<std::vector<std::string>> symbol_matrix;
+    std::map<std::string, std::string> args;
     try {
-        std::map<std::string, std::string> args = reader::DataReader::parse_command_line_args(argc, argv);
+        args = reader::DataReader::parse_command_line_args(argc, argv);
         /* If map is empty and no exception was thrown, it means that only --help was specified */
         if (args.empty())
             return 0;
@@ -28,6 +29,7 @@ int main(int argc, char** argv) {
         std::cout << e.what() << std::endl;
         return -1;
     }
+    shared::Logger::print_out(args["output_data_path"]);
 
     return 0;
 }

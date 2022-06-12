@@ -44,6 +44,10 @@ std::vector<std::vector<std::string>> reader::DataReader::read_csv_file(const st
     catch (const std::invalid_argument& e) {
         throw;
     }
+    for (size_t row_idx{}; row_idx < buff.size(); row_idx++) {
+        if (buff[row_idx].size() != buff.size())
+            throw std::invalid_argument("Matrix size does not match!");
+    }
 
     return buff;
 }
