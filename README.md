@@ -40,16 +40,29 @@ have to be identical, but they have to be compatible:
 - [Ninja, release 1.11.0](https://github.com/ninja-build/ninja/releases)
 - [MinGW gcc, g++ version 9.2.0](https://osdn.net/projects/mingw/downloads/68260/mingw-get-setup.exe/)
 
+IMPORTANT! Make sure that the paths to *directories* containing executables of each of those tools are added to PATH
+system variable. Example:
+
+![System variable setup](docs/env_setup.png "System variable setup")
+
+For some reason unknown to author, CMake can't seem to handle providing paths manually.
+
+As for MinGW, after downloading the installer it will ask if it should install support for graphical user interface - 
+please mark it for installation, as it will install package manager. After the installation is done, the package manager
+should automatically turn on, but if not, then please find and run *MinGW Installation Manager*. After that, on the left
+side of the window select *Basic Setup* and mark the package *mingw32-gcc-g++-bin* for installation, as shown here:
+
+![MinGW package setup](docs/mingw_package.png "MinGW package setup")
+
+After that, in the top left corner select *Installation* and click *Apply changes*. Package manager will now install gcc
+and g++ compilers.
+
 2. If the project is being set up for the first time, please fire up the terminal ***in the project directory*** and
 type in the following command:
 
 ```commandline
-cmake -S . -B cmake-build-release-mingw -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=<path_to_build_program> -DCMAKE_C_COMPILER=<path_to_c_compiler> -DCMAKE_CXX_COMPILER=<path_to_cxx_compiler> -G Ninja .
+cmake -S . -B cmake-build-release-mingw -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=ninja -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -G Ninja .
 ```
-
-IMPORTANT TO NOTE! If CMake executable is not in Your PATH system variable, You'll have to provide full path to the executable Yourself.
-Same goes for compilers and build system - if paths to them are in the PATH variable, You don't have to provide full paths UNLESS
-You have multiple versions installed.
 
 If anything goes wrong during this command, please check for correct syntax and if it was executed in the correct
 directory. The output should look similar to this:
