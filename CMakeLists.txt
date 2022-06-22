@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.21)
 project(konserwatorium)
 
 set(CMAKE_CXX_STANDARD 17)
+set_source_files_properties(main.cpp PROPERTIES COMPILE_OPTIONS "-static-libgcc;-static-libstdc++")
 
 add_library(data_reader src/data_reader.cpp)
 add_library(shared src/shared.cpp)
